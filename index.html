@@ -181,7 +181,7 @@
 		{
 			for (let i = 0; i < maxPredictions; i++) 
 			{	
-				if(predictionCache[i].className == "Pre Jump")
+				if(predictionCache[i].className == "PreJump")
 				{
 					if(predictionCache[i].probability.toFixed(2) > 0.9)
 					{
@@ -195,7 +195,7 @@
 				
 				if(preJumpClear)
 				{
-					if(predictionCache[i].className == "Mid Jump")
+					if(predictionCache[i].className == "MidJump")
 					{
 						if(predictionCache[i].probability.toFixed(2) > 0.9)
 						{
@@ -208,7 +208,7 @@
 				}
 				if(midJumpClear)
 				{
-					if(predictionCache[i].className == "Post Jump")
+					if(predictionCache[i].className == "PostJump")
 					{
 						if(predictionCache[i].probability.toFixed(2) > 0.9)
 						{
