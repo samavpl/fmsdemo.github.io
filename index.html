@@ -100,7 +100,7 @@
     // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
 
     // the link to your model provided by Teachable Machine export panel
-    const URL = "https://teachablemachine.withgoogle.com/models/6FjK73oHT/";
+    const URL = "https://teachablemachine.withgoogle.com/models/0vMm0R3vJ/";
     let model, webcam, ctx, labelContainer, maxPredictions;
 	
 	function startToggle() 
@@ -183,7 +183,7 @@
 			{	
 				if(predictionCache[i].className == "PreJump")
 				{
-					if(predictionCache[i].probability.toFixed(2) > 0.9)
+					if(predictionCache[i].probability.toFixed(2) > 0.5)
 					{
 						preJumpClear = true;
 						ctx2.fillStyle = "green";
