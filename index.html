@@ -144,7 +144,7 @@
 		const sizeHeight = window.innerHeight;//600;
 		
 		
-        const flip = true; // whether to flip the webcam
+        const flip = false; // whether to flip the webcam
         webcam = new tmPose.Webcam(sizeWidth, sizeHeight, flip); // width, height, flip
         await webcam.setup(); // request access to the webcam
         await webcam.play();
