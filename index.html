@@ -78,22 +78,57 @@
 
 	var canvas = document.getElementById("canvasOverlay");
 	
-	
+	//JUMP VARIABLES
 	var ctx2 = canvasO.getContext('2d');
 	ctx2.font = "30px Comic Sans MS";
 	ctx2.fillStyle = "red";
-	ctx2.textAlign = "center";
-	ctx2.fillText("PreJump2", canvas.width/2, canvas.height/2 - 60);
+	ctx2.textAlign = "left";
+	ctx2.fillText("PreJump", canvas.width/2, canvas.height/2 - 240);
 	var ctx3 = canvasO.getContext('2d');
 	ctx3.font = "30px Comic Sans MS";
 	ctx3.fillStyle = "red";
-	ctx3.textAlign = "center";
-	ctx3.fillText("MidJump", canvas.width/2, canvas.height/2);
+	ctx3.textAlign = "left";
+	ctx3.fillText("MidJump", canvas.width/2, canvas.height/2 - 180);
 	var ctx4 = canvasO.getContext('2d');
 	ctx4.font = "30px Comic Sans MS";
 	ctx4.fillStyle = "red";
-	ctx4.textAlign = "center";
-	ctx4.fillText("PostJump", canvas.width/2, canvas.height/2 + 60);
+	ctx4.textAlign = "left";
+	ctx4.fillText("PostJump", canvas.width/2, canvas.height/2 - 120);
+	
+	//Summary
+	var ctx4a = canvasO.getContext('2d');
+	ctx4a.font = "30px Comic Sans MS";
+	ctx4a.fillStyle = "orange";
+	ctx4a.textAlign = "center";
+	ctx4a.fillText("", canvas.width/2, canvas.height/2);
+	
+	
+	//CATCH VARIABLES
+	var ctx5 = canvasO.getContext('2d');
+	ctx5.font = "30px Comic Sans MS";
+	ctx5.fillStyle = "red";
+	ctx5.textAlign = "left";
+	ctx5.fillText("PreCatch", canvas.width/2, canvas.height/2 + 120);
+	var ctx6 = canvasO.getContext('2d');
+	ctx6.font = "30px Comic Sans MS";
+	ctx6.fillStyle = "red";
+	ctx6.textAlign = "left";
+	ctx6.fillText("MidCatch", canvas.width/2, canvas.height/2 + 180);
+	var ctx7 = canvasO.getContext('2d');
+	ctx7.font = "30px Comic Sans MS";
+	ctx7.fillStyle = "red";
+	ctx7.textAlign = "left";
+	ctx7.fillText("PostCatch", canvas.width/2, canvas.height/2 + 240);
+	
+	
+	
+	//Summary
+	var ctx7a = canvasO.getContext('2d');
+	ctx7a.font = "30px Comic Sans MS";
+	ctx7a.fillStyle = "orange";
+	ctx7a.textAlign = "center";
+	ctx7a.fillText("", canvas.width/2, canvas.height/2 + 320);
+	
 	
 	
 	
@@ -145,7 +180,6 @@
 		
 		const sizeHeight = 800;
 		
-		
         const flip = false; // whether to flip the webcam
         webcam = new tmPose.Webcam(sizeWidth, sizeHeight, flip); // width, height, flip
         await webcam.setup(); // request access to the webcam
@@ -172,6 +206,9 @@
 	var midJumpClear;
 	var postJumpClear;
 
+	var preCatchClear;
+	var midCatchClear;
+	var postCatchClear;
 
     async function loop(timestamp) {
         webcam.update(); // update the webcam frame
@@ -187,6 +224,23 @@
                 predictionCache[i].className + ": " + predictionCache[i].probability.toFixed(2);
 				labelContainer.childNodes[i].innerHTML = classPrediction;
 				
+				
+				
+				
+				if(preJumpClear && midJumpClear && postJumpClear)
+				{
+					ctx4a.strokeText("Vertical Jump Complete", canvas.width/2, canvas.height/2);
+					console.log("vert jump clear");
+					
+				}
+				
+				if(preCatchClear && midCatchClear && postCatchClear)
+				{
+					ctx7a.strokeText("Catch Complete", canvas.width/2, canvas.height/2 + 320);
+					console.log("catch clear");
+				}
+				
+				
 				if(predictionCache[i].probability.toFixed(2) > 0.9)
 				{
 					labelContainer.childNodes[i].style.color = "red";
@@ -195,43 +249,69 @@
 				{
 					labelContainer.childNodes[i].style.color = "black";
 				}
-			
-			
+
+				//---------------------------VERT JUMP
 				if(predictionCache[i].className == "PreJump" && !preJumpClear)
 				{
-					if(predictionCache[i].probability.toFixed(2) > 0.5)
+					if(predictionCache[i].probability.toFixed(2) > 0.7)
 					{
 						preJumpClear = true;
 						ctx2.fillStyle = "green";
 						console.log("hit prejump");
-						ctx2.fillText("PreJump", canvas.width/2, canvas.height/2 - 60);
+						ctx2.fillText("PreJump ✔", canvas.width/2, canvas.height/2 - 240);
 					}
 				}
-				
-				if(preJumpClear)
+				if(predictionCache[i].className == "MidJump" && !midJumpClear)
 				{
-					if(predictionCache[i].className == "MidJump" && !midJumpClear)
+					if(predictionCache[i].probability.toFixed(2) > 0.9)
 					{
-						if(predictionCache[i].probability.toFixed(2) > 0.9)
-						{
-							midJumpClear = true;
-							ctx3.fillStyle = "green";
-							console.log("hit midjump");
-							ctx3.fillText("MidJump", canvas.width/2, canvas.height/2);
-						}
+						midJumpClear = true;
+						ctx3.fillStyle = "green";
+						console.log("hit midjump");
+						ctx3.fillText("MidJump ✔", canvas.width/2, canvas.height/2 - 180);
 					}
 				}
-				if(midJumpClear)
+				if(predictionCache[i].className == "PostJump" && !postJumpClear)
 				{
-					if(predictionCache[i].className == "PostJump" && !postJumpClear)
+					if(predictionCache[i].probability.toFixed(2) > 0.9)
 					{
-						if(predictionCache[i].probability.toFixed(2) > 0.9)
-						{
-							postJumpClear = true;
-							ctx4.fillStyle = "green";
-							console.log("hit postjump");
-							ctx4.fillText("PostJump", canvas.width/2, canvas.height/2 + 60);
-						}
+						postJumpClear = true;
+						ctx4.fillStyle = "green";
+						console.log("hit postjump");
+						ctx4.fillText("PostJump ✔", canvas.width/2, canvas.height/2 - 120);
+					}
+				}
+	
+	
+				//---------------------------CATCH
+				if(predictionCache[i].className == "PreCatch" && !preCatchClear)
+				{
+					if(predictionCache[i].probability.toFixed(2) > 0.9)
+					{
+						preJumpClear = true;
+						ctx5.fillStyle = "green";
+						console.log("hit preCatch");
+						ctx5.fillText("PreCatch ✔", canvas.width/2, canvas.height/2  + 120);
+					}
+				}
+				if(predictionCache[i].className == "MidCatch" && !midCatchClear)
+				{
+					if(predictionCache[i].probability.toFixed(2) > 0.9)
+					{
+						midJumpClear = true;
+						ctx6.fillStyle = "green";
+						console.log("hit midCatch");
+						ctx6.fillText("MidCatch ✔", canvas.width/2, canvas.height/2  + 180);
+					}
+				}
+				if(predictionCache[i].className == "PostJump" && !postCatchClear)
+				{
+					if(predictionCache[i].probability.toFixed(2) > 0.9)
+					{
+						postJumpClear = true;
+						ctx7.fillStyle = "green";
+						console.log("hit postCatch");
+						ctx7.fillText("PostCatch ✔", canvas.width/2, canvas.height/2 + 240);
 					}
 				}
 			}
